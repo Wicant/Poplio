@@ -7,3 +7,4 @@
 ### git config --global --list
 ### git add . #agrega como en una memoria previa, hay que confirmarlo
 ### git commit -m "comentario"
+### git push origin main 
