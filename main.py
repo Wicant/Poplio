@@ -1,8 +1,9 @@
 from Paciente import Paciente
 
+
 pacientes: list [Paciente] = [
-    Paciente("12456321-0","poplio",50,"isapre"),
-    Paciente("13234234-6","Piplop",12,"fonasa")
+    Paciente("12456321-0","poplio",50,"Isapre"),
+    Paciente("13234234-6","Piplop",12,"Fonasa")
     ]
 def menu() -> int:
     print("Menu:\n"
@@ -25,9 +26,7 @@ def leer_numero(mensaje : str) -> int:
 def eliminar_paciente()->None:
     paciente=buscar_paciente()
     if paciente:
-        paciente_rut = input("esta seguro que quiere eliminar?\n" 
-        "Ingrese el RUT del paciente: ")
-        if paciente.rut == paciente_rut:
+        if confirmar(f"esta seguro que desea eliminar al paciente {paciente.nombre}"):
             pacientes.remove(paciente) 
             print("Paciente eliminado")
     else:
@@ -92,7 +91,7 @@ def main()-> None:
 
 
 
-def agregar_paciente():
+def agregar_paciente()-> None:
     rut = input("ingrese el rut del paciente: ")
     nombre = input("ingrese el nombre del paciente: ")
 
@@ -116,8 +115,12 @@ def agregar_paciente():
         prevision = ""
         print("opcion no valida")
         return
-    pacientes.append(Paciente(rut,nombre,edad,prevision))
-
+    try:
+        nuevo_paciente=Paciente(rut,nombre,edad,prevision)
+    except(ValueError,TypeError) as e:
+        print(f"error al crear paciente: {e}")  
+        return
+    pacientes.append(nuevo_paciente) 
 def imprimir_pacientes()-> None:
     if pacientes:
         for paciente in pacientes:
@@ -137,5 +140,12 @@ def imprimir_paciente()-> None:
         print(paciente)
     else:
         print("Paciente no encontrado. ")
+
+def confirmar(mensaje : str)->bool:
+    while True:
+        resp = input(mensaje +"(si/no): ").strip().lower()
+        if resp == "si":
+            return resp == "si"
+        print("respuesta no valida. Por favor ingrese 'si' o 'no'.")
 if __name__ == "__main__":
     main()
